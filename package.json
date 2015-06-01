@@ -1,6 +1,6 @@
 {
   "name": "hihat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "small tool for running browser tests locally",
   "main": "index.js",
   "license": "MIT",
