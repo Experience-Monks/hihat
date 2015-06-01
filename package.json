@@ -1,7 +1,7 @@
 {
   "name": "hihat",
   "version": "1.0.0",
-  "description": "run local tests in a DevTools window",
+  "description": "small tool for running browser tests locally",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -20,9 +20,10 @@
     "get-port": "^1.0.0",
     "getport": "^0.1.0",
     "minimist": "^1.1.1",
+    "object-assign": "^2.0.0",
     "routes-router": "^4.1.2",
     "through2": "^0.6.5",
-    "watchify": "^3.2.1"
+    "watchify": "^3.1.2"
   },
   "devDependencies": {},
   "scripts": {

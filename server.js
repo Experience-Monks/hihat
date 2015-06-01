@@ -1,3 +1,9 @@
+var args = process.argv.slice(2)
+var argv = require('minimist')(args, {
+  boolean: ['devtool'],
+  default: { devtool: true }
+})
+
 var app = require('app')
 app.commandLine.appendSwitch('disable-http-cache')
 app.commandLine.appendSwitch('v', 0)
@@ -16,27 +22,33 @@ app.on('window-all-closed', function () {
 })
 
 app.on('ready', function () {
-  start()
-  // require('getport')(9966, function (err, port) {
-  //   if (err) {
-  //     console.error('Could not get available port')
-  //     process.exit(1)
-  //   }
+  var basePort = argv.port || 9966
+  require('getport')(basePort, function (err, port) {
+    if (err) {
+      console.error('Could not get available port')
+      process.exit(1)
+    }
 
-  //   start({
-  //     port: port
-  //   })
-  // })  
+    start({
+      port: port,
+      dir: argv.dir || process.cwd()
+    })
+  })  
 })
 
 function start(opt) {
-  var hihat = createHihat(process.argv.slice(2), opt)
+  var hihat = createHihat(args, opt)
     .on('connect', function(ev) {
+      var frame = argv.frame 
+        ? { width: 640, height: 320 }
+        : { width: 0, height: 0, x: 0, y: 0 }
       // a hidden browser window
-      mainWindow = new BrowserWindow({ width: 0, height: 0, x: 0, y: 0 })
+      mainWindow = new BrowserWindow(frame)
 
       mainWindow.webContents.once('did-start-loading', function() {
-        mainWindow.openDevTools({ detach: true })
+        if (String(argv.devtool) !== 'false') {
+          mainWindow.openDevTools({ detach: true })
+        }
       })
 
       mainWindow.show()
