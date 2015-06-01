@@ -1,0 +1,67 @@
+{
+  "name": "hihat",
+  "version": "1.0.0",
+  "description": "run local tests in a DevTools window",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {
+    "budo": "^4.0.0",
+    "concat-stream": "^1.4.8",
+    "debounce": "^1.0.0",
+    "ecstatic": "^0.8.0",
+    "electron-prebuilt": "^0.27.1",
+    "events": "^1.0.2",
+    "find-port": "^1.0.1",
+    "get-port": "^1.0.0",
+    "getport": "^0.1.0",
+    "minimist": "^1.1.1",
+    "routes-router": "^4.1.2",
+    "through2": "^0.6.5",
+    "watchify": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "chrome",
+    "app",
+    "dev",
+    "tools",
+    "nodemon",
+    "browser",
+    "window",
+    "chromium",
+    "blink",
+    "webgl",
+    "test",
+    "testing",
+    "node",
+    "mon",
+    "monitor",
+    "live",
+    "reload",
+    "local",
+    "development",
+    "reloading",
+    "hot",
+    "fast",
+    "rapid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jam3/hihat.git"
+  },
+  "homepage": "https://github.com/Jam3/hihat",
+  "bugs": {
+    "url": "https://github.com/Jam3/hihat/issues"
+  },
+  "bin": {
+    "hihat": "./bin/index.js"
+  }
+}
