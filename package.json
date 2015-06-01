@@ -1,6 +1,6 @@
 {
   "name": "hihat",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "small tool for running browser tests locally",
   "main": "index.js",
   "license": "MIT",
@@ -63,6 +63,6 @@
     "url": "https://github.com/Jam3/hihat/issues"
   },
   "bin": {
-    "hihat": "./bin/index.js"
+    "hihat": "./bin/cmd.js"
   }
 }
