@@ -2,6 +2,8 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
+## This is stil a work in progress.
+
 Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. Under the hood, this uses browserify and watchify for fast incremental bundling.
 
 This is useful for locally testing browser code with the full range of Web APIs (WebGL, WebAudio, etc).
@@ -26,13 +28,9 @@ The arguments are passed to watchify (and thus browserify). Examples:
 # open DevTools and run the file
 hihat index.js
 
-# run all files in the tests/ folder
-hihat tests/*.js --debug
-
-# 
+# run all ES6 files in the tests/ folder
+hihat tests/*.js -d -t babelify
 ```
-
-
 
 ## License
 
