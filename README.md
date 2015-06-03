@@ -2,13 +2,19 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-## This is stil a work in progress.
+![hihat](http://i.imgur.com/OHgY6rZ.gif)
 
-Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. Under the hood, this electron to run DevTools, and browserify/watchify for fast incremental bundling.
+> like `nodemon` for the browser
 
-This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc).
+Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. 
+
+This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc). It also provides access to profiling, debugger statements, network requests, and so forth.
+
+Under the hood, this uses [electron](https://github.com/atom/electron), [browserify](https://github.com/substack/node-browserify) and [watchify](https://github.com/substack/watchify).
 
 Currently only tested on OSX Yosemite.
+
+**Note: This is still highly WIP/experimental and subject to change.**
 
 ## Install
 
