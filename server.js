@@ -4,6 +4,7 @@ var argv = require('minimist')(args, {
   default: { devtool: true }
 })
 
+var colorize = require('tap-dev-tool')
 var app = require('app')
 app.commandLine.appendSwitch('disable-http-cache')
 app.commandLine.appendSwitch('v', 0)
@@ -30,6 +31,7 @@ app.on('ready', function () {
     }
 
     start({
+      plugin: argv.raw ? undefined : colorize,
       port: port,
       dir: argv.dir || process.cwd()
     })
@@ -42,6 +44,7 @@ function start(opt) {
       var frame = argv.frame 
         ? { width: 640, height: 320 }
         : { width: 0, height: 0, x: 0, y: 0 }
+
       // a hidden browser window
       mainWindow = new BrowserWindow(frame)
 

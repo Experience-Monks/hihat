@@ -18,10 +18,13 @@
     "getport": "^0.1.0",
     "minimist": "^1.1.1",
     "routes-router": "^4.1.2",
+    "tap-dev-tool": "^1.0.4",
     "through2": "^0.6.5",
     "watchify": "^3.1.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.0.0"
+  },
   "scripts": {
     "test": "node test.js"
   },
