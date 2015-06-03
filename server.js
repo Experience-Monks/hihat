@@ -4,7 +4,6 @@ var argv = require('minimist')(args, {
   default: { devtool: true }
 })
 
-var colorize = require('tap-dev-tool')
 var app = require('app')
 app.commandLine.appendSwitch('disable-http-cache')
 app.commandLine.appendSwitch('v', 0)
@@ -31,7 +30,6 @@ app.on('ready', function () {
     }
 
     start({
-      plugin: argv.raw ? undefined : colorize,
       port: port,
       dir: argv.dir || process.cwd()
     })

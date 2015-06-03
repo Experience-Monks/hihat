@@ -4,9 +4,9 @@
 
 ## This is stil a work in progress.
 
-Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. Under the hood, this uses browserify and watchify for fast incremental bundling.
+Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. Under the hood, this electron to run DevTools, and browserify/watchify for fast incremental bundling.
 
-This is useful for locally testing browser code with the full range of Web APIs (WebGL, WebAudio, etc).
+This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc).
 
 Currently only tested on OSX Yosemite.
 
