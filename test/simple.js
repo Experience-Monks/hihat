@@ -1,8 +1,9 @@
 var test = require('tape')
 
-test('should do something', function (t) {
+test('test HTML element', function (t) {
   t.equal(3, 3)
-  t.equal(1, 2)
-  t.ok(document.body instanceof HTMLElement)
+  t.equal(2, 2)
+  t.ok(document.body instanceof HTMLElement,
+      'should be an element')
   t.end()
 })

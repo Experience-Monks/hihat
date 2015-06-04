@@ -2,7 +2,7 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-![hihat](http://i.imgur.com/OHgY6rZ.gif)
+![hihat](http://i.imgur.com/Sqpbjzl.gif)
 
 > like `nodemon` for the browser
 
