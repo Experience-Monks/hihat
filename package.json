@@ -22,10 +22,11 @@
     "watchify": "^3.1.2"
   },
   "devDependencies": {
+    "tap-spec": "^4.0.0",
     "tape": "^4.0.0"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "./bin/cmd.js test/simple.js --verbose"
   },
   "keywords": [
     "chrome",
