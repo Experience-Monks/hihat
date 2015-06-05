@@ -15,9 +15,13 @@ var createHihat = require('./lib/hihat')
 // Report crashes to atom server.
 require('crash-reporter').start()
 
+var hihat
 var mainWindow = null
 app.on('window-all-closed', function () {
   app.quit()
+  if (hihat) {
+    hihat.close()
+  }
 })
 
 app.on('ready', function () {
@@ -36,7 +40,7 @@ app.on('ready', function () {
 })
 
 function start(opt) {
-  var hihat = createHihat(args, opt)
+  hihat = createHihat(args, opt)
     .on('connect', function(ev) {
       var frame = argv.frame 
         ? { width: 640, height: 320 }
