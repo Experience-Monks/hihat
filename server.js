@@ -1,4 +1,6 @@
 var args = process.argv.slice(2)
+var assign = require('object-assign')
+var path = require('path')
 var argv = require('minimist')(args, {
   boolean: ['devtool'],
   default: { devtool: true }
@@ -36,20 +38,22 @@ app.on('ready', function () {
       port: port,
       dir: argv.dir || process.cwd()
     })
-  })  
+  })
 })
 
-function start(opt) {
+function start (opt) {
   hihat = createHihat(args, opt)
-    .on('connect', function(ev) {
-      var frame = argv.frame 
+    .on('connect', function (ev) {
+      var frame = argv.frame
         ? { width: 640, height: 320 }
         : { width: 0, height: 0, x: 0, y: 0 }
 
       // a hidden browser window
-      mainWindow = new BrowserWindow(frame)
+      mainWindow = new BrowserWindow(assign({}, frame, {
+        icon: path.join(__dirname, 'img', 'logo-thumb.png')
+      }))
 
-      mainWindow.webContents.once('did-start-loading', function() {
+      mainWindow.webContents.once('did-start-loading', function () {
         if (String(argv.devtool) !== 'false') {
           mainWindow.openDevTools({ detach: true })
         }
@@ -62,8 +66,10 @@ function start(opt) {
         mainWindow = null
         hihat.close()
       })
-    }).on('update', function() {
-      if (mainWindow)
+    })
+    .on('update', function () {
+      if (mainWindow) {
         mainWindow.reload()
+      }
     })
 }
