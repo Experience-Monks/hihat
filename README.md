@@ -1,10 +1,8 @@
-# hihat
-
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+# hihat <sub>![logo](img/logo-thumb.png)</sub>
 
 ![hihat](http://i.imgur.com/Sqpbjzl.gif)
 
-> like `nodemon` with Chrome DevTools
+> like `nodemon` with Chrome DevTools 
 
 Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. 
 
