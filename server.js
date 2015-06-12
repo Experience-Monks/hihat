@@ -19,12 +19,19 @@ require('crash-reporter').start()
 
 var hihat
 var mainWindow = null
-app.on('window-all-closed', function () {
+app.on('window-all-closed', close)
+
+process.on('uncaughtException', function (err) {
+  process.stderr.write((err.stack ? err.stack : err) + '\n')
+  close()
+})
+
+function close () {
   app.quit()
   if (hihat) {
     hihat.close()
   }
-})
+}
 
 app.on('ready', function () {
   var basePort = argv.port || 9966

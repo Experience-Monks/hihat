@@ -23,5 +23,6 @@ if (!fs.existsSync(path.resolve(file))) {
 
 // spawn electron
 var p = proc.spawn(electron, [serverPath].concat(args))
-if (argv.verbose)
-  p.stderr.pipe(logger()).pipe(process.stdout)
+p.stderr.pipe(logger({
+  verbose: argv.verbose
+})).pipe(process.stdout)
