@@ -24,11 +24,13 @@
     "watchify": "^3.1.2"
   },
   "devDependencies": {
+    "standard": "^4.2.0",
     "tap-spec": "^4.0.0",
     "tape": "^4.0.0"
   },
   "scripts": {
-    "test": "./bin/cmd.js test/simple.js --verbose"
+    "test": "standard && npm run smoke",
+    "smoke": "./bin/cmd.js test/simple.js --verbose"
   },
   "keywords": [
     "chrome",
