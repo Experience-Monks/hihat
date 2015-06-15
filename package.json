@@ -10,8 +10,10 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
+    "browserify": "^10.2.4",
     "concat-stream": "^1.4.8",
     "debounce": "^1.0.0",
+    "duplexer2": "0.0.2",
     "ecstatic": "^0.8.0",
     "electron-prebuilt": "^0.27.1",
     "events": "^1.0.2",
@@ -20,6 +22,7 @@
     "object-assign": "^3.0.0",
     "once": "^1.3.2",
     "routes-router": "^4.1.2",
+    "split2": "^1.0.0",
     "through2": "^0.6.5",
     "watchify": "^3.1.2"
   },
@@ -27,7 +30,8 @@
     "standard": "^4.2.0",
     "tap-dev-tool": "^1.2.0",
     "tap-spec": "^4.0.0",
-    "tape": "^4.0.0"
+    "tape": "^4.0.0",
+    "win-spawn": "^2.0.0"
   },
   "scripts": {
     "example": "./bin/cmd.js test/example.js -p tap-dev-tool",

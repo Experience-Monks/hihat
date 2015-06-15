@@ -42,6 +42,7 @@ app.on('ready', function () {
     }
 
     start({
+      node: true,
       port: port,
       host: argv.host || 'localhost',
       dir: argv.dir || process.cwd()
