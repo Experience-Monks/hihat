@@ -27,6 +27,8 @@
     "watchify": "^3.1.2"
   },
   "devDependencies": {
+    "concat-stream": "^1.4.10",
+    "request": "^2.57.0",
     "standard": "^4.2.0",
     "tap-dev-tool": "^1.2.0",
     "tap-spec": "^4.0.0",
