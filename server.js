@@ -61,15 +61,18 @@ function start (opt) {
         icon: path.join(__dirname, 'img', 'logo-thumb.png')
       }))
 
-      mainWindow.webContents.once('did-start-loading', function () {
+      var webContents = mainWindow.webContents
+      webContents.once('did-start-loading', function () {
         if (String(argv.devtool) !== 'false') {
           mainWindow.openDevTools({ detach: true })
         }
       })
 
-      mainWindow.show()
-      mainWindow.loadUrl(ev.uri)
+      webContents.once('did-frame-finish-load', function () {
+        mainWindow.loadUrl(ev.uri)
+      })
 
+      mainWindow.show()
       mainWindow.once('closed', function () {
         mainWindow = null
         hihat.close()
