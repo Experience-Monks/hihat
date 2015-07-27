@@ -3,6 +3,7 @@ var fs = require('fs')
 var url = require('url')
 console.log(url.parse)
 console.log(process.argv)
+console.log(fs.readFile)
 // process.stderr.write("HELLO WORLD\n")
 
 test('should do something', function (t) {

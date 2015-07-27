@@ -3,8 +3,8 @@ var assign = require('object-assign')
 var path = require('path')
 var serializerr = require('serializerr')
 var argv = require('./lib/parse-args')(args)
-var prelude = path.resolve(__dirname, 'lib', 'prelude.js')
 var preludeConsole = path.resolve(__dirname, 'lib', 'prelude-console.js')
+var preludeSilent = path.resolve(__dirname, 'lib', 'prelude.js')
 
 var app = require('app')
 app.commandLine.appendSwitch('disable-http-cache')
@@ -65,8 +65,10 @@ function start (opt) {
       var bounds = parseBounds(argv.frame)
 
       // a hidden browser window
-      mainWindow = new BrowserWindow(assign({}, bounds, {
-        preload: argv.print ? preludeConsole : prelude,
+      mainWindow = new BrowserWindow(assign({
+        'node-integration': argv.node
+      }, bounds, {
+        preload: argv.print ? preludeConsole : preludeSilent,
         icon: path.join(__dirname, 'img', 'logo-thumb.png')
       }))
 
