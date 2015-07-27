@@ -131,6 +131,10 @@ If you specify `hihat` without any entry files, it will not invoke browserify or
 hihat --node
 ```
 
+Example:
+
+![repl](http://i.imgur.com/Xns0gGT.png)
+
 ## HTML index
 
 By default, hihat will serve a [simple HTML `index.html`](https://www.npmjs.com/package/simple-html-index) file. You can use `--index` for an alternative. The path is relative to your current working directory.
