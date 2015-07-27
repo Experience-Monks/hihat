@@ -8,7 +8,7 @@ Runs a source file in a Chrome DevTools process. Saving the file will reload the
 
 This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc). It provides access to profiling, debugger statements, network requests, and so forth. 
 
-It can also be used to develop typical Node projects. For example, instead of using [nodemon](https://www.npmjs.com/package/nodemon) during development, you can use `hihat` to make use of a debugger.
+It can also be used to develop typical Node projects, or as a generic [Node REPL](#REPL). For example, instead of using [nodemon](https://www.npmjs.com/package/nodemon) during development, you can use `hihat` to make use of a debugger.
 
 Eventually; this may be useful for headless testing of Node/Browser code on a server.
 
@@ -56,7 +56,7 @@ The process will stay open until you call `window.close()` from the client code.
 Usage:
 
 ```sh
-hihat entries [options] -- [browserifyOptions]
+hihat [entries] [options] -- [browserifyOptions]
 ```
 
 Options:
@@ -87,6 +87,11 @@ Options:
   - a number, will close the process after this duration. Use 0 for no timeout
 - `--exec`
   - an alias for `--print`, `--no-devtool` and `--quit` options. Useful for headless executions
+- `--index=path/to/index.html`
+  - optional `index.html` file to override the default (see [HTML index](#html-index))
+- `--serve`
+  - what to serve your bundle entry point as
+  - defaults to file name if possible, otherwise 'bundle.js'
 
 By default, browserify will use source maps. You can change this with `--no-debug` as a browserify option:
 
@@ -117,6 +122,50 @@ This will write the clipboard contents to a new file, `clipboard.txt`.
 You can pass `--no-electron-builtins` to disable Electron modules and make the source behave more like Node.
 
 **Note:** Modules that use native addons (like [node-canvas](https://github.com/Automattic/node-canvas)) are not supported.
+
+## REPL
+
+If you specify `hihat` without any entry files, it will not invoke browserify or watchify. For example, you can use this as a generic alternative to the Node REPL, but with better debugging and various Web APIs.
+
+```sh
+hihat --node
+```
+
+## HTML index
+
+By default, hihat will serve a [simple HTML `index.html`](https://www.npmjs.com/package/simple-html-index) file. You can use `--index` for an alternative. The path is relative to your current working directory.
+
+```sh
+hihat test.js --index=foo.html
+```
+
+And the following `foo.html`:
+
+```html
+<!doctype html>
+<head>
+  <title>FOO</title>
+  <meta charset="utf-8">
+  </head>
+<body>
+  <script src="test.js"></script> 
+</body>
+</html>
+```
+
+You can also specify a `--serve` option to force a certain entry point for your bundle. For example:
+
+```sh
+hihat test.js --index=foo.html --serve=bundle.js
+```
+
+With this, your script tag would be:
+
+```html
+<script src="bundle.js"></script> 
+```
+
+In most cases, `--serve` will default to the file name of your entry file. In complex cases, such as absolute paths or `'.'`, it may default to `'bundle.js'`.
 
 ## Advanced Examples
 
