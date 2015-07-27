@@ -179,9 +179,9 @@ function getPrelude () {
     name = 'console.js'
   }
   
-  // no prelude
-  if (!name)
+  if (name) {
+    return path.resolve(__dirname, 'lib', 'prelude', name)
+  } else {
     return undefined
-  
-  return path.resolve(__dirname, 'lib', 'prelude', name)
+  }
 }
