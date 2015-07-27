@@ -86,7 +86,7 @@ function start (opt) {
 
       var webContents = mainWindow.webContents
       webContents.once('did-start-loading', function () {
-        if (String(argv.devtool) !== 'false') {
+        if (argv.devtool !== false) {
           mainWindow.openDevTools({ detach: true })
         }
       })
@@ -108,6 +108,14 @@ function start (opt) {
       // REPL with no browserify entries
       if (argv._.length === 0) {
         mainWindow.reload()
+      }
+      
+      // if DevTools is the only window and it closes,
+      // then quit the app
+      if (argv.devtool !== false && (bounds.width === 0 && bounds.height === 0)) {
+        mainWindow.once('devtools-closed', function () {
+          mainWindow.close()
+        })
       }
       
       mainWindow.once('closed', function () {
