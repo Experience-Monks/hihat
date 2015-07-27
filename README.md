@@ -2,29 +2,33 @@
 
 ![hihat](http://i.imgur.com/Sqpbjzl.gif)
 
-> like `nodemon` with Chrome DevTools 
+> interactive Node/Browser testing with Chrome DevTools
 
-Runs the given source files in a new Chromium DevTools window. Saving the file will reload the tab. 
+Runs a source file in a Chrome DevTools process. Saving the file will reload the tab. 
 
-This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc). It also provides access to profiling, debugger statements, network requests, and so forth.
+This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc). It provides access to profiling, debugger statements, network requests, and so forth. 
+
+It can also be used to develop typical Node projects. For example, instead of using [nodemon](https://www.npmjs.com/package/nodemon) during development, you can use `hihat` to make use of a debugger.
+
+Eventually; this may be useful for headless testing of Node/Browser code on a server.
 
 Under the hood, this uses [electron](https://github.com/atom/electron), [browserify](https://github.com/substack/node-browserify) and [watchify](https://github.com/substack/watchify).
 
 Currently only tested on OSX Yosemite.
 
-**Note: This is still experimental and subject to change.**
+**This project is still in active development.**
 
 ## Install
 
 [![NPM](https://nodei.co/npm/hihat.png)](https://www.npmjs.com/package/hihat)
 
-Use `npm` to install it globally.
+This project is currently best suited as a global install. Use `npm` to install it like so:
 
 ```sh
 npm install hihat -g
 ```
 
-## Usage
+## Basic Examples
 
 Simplest case is just to run `hihat` on any source file that can be browserified (Node/CommonJS).
 
@@ -32,12 +36,88 @@ Simplest case is just to run `hihat` on any source file that can be browserified
 hihat index.js
 ```
 
-Since it runs browserify under the hood, you can pass any options to it:
+Any options after `--` will be passed to browserify. For example:
 
 ```sh
 # transpile ES6 files
-hihat tests/*.js --transform babelify --debug
+hihat tests/*.js -- --transform babelify
 ```
+
+You can use `--print` to redirect `console` logging into your terminal:
+
+```sh
+hihat test.js --print | tap-spec
+```
+
+The process will stay open until you call `window.close()` from the client code. Also see the `--quit` and `--timeout` options in [Usage](#usage).
+
+## Usage
+
+Usage:
+
+```sh
+hihat entries [options] -- [browserifyOptions]
+```
+
+Options:
+
+- `--pot` (default `9541`)
+  - the port to host the local server on
+- `--host` (default `'localhost'`)
+  - the host for the local development server
+- `--dir` (default `process.cwd()`)
+  - the root directory to serve static files from
+- `--print`
+  - `console.log` and `console.error` will print to `process.stdout` and `process.stderr`
+- `--quit`
+  - uncaught errors (like syntax) will cause the application to exit (useful for unit testing)
+- `--frame` (default `'0,0,0,0'`)
+  - a comma-separated string for `x,y,width,height` window bounds
+  - if only two numbers are passed, treated as `width,height`
+- `--no-devtool`
+  - do not open a DevTools window when running
+- `--raw-output`
+  - do not silence Chromium debug logs on stdout/stderr
+- `--node`
+  - enables Node integration (see [node](#node))
+- `--no-electron-builtins`
+  - when `--node` is enabled, makes it behave more like Node by ignoring Electron builtins
+- `--timeout` (default 0)
+  - a number, will close the process after this duration. Use 0 for no timeout
+
+By default, browserify will use source maps. You can change this with `--no-debug` as a browserify option:
+
+```sh
+hihat test.js -- --no-debug
+```
+
+## Node
+
+hihat can also be used for developing Node code. This will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console.
+
+By default, enabling `--node` will also enable the Electron builtins. For example, say we have `paste.js`:
+
+```js
+var clipboard = require('clipboard')
+process.stdout.write(clipboard.readText()+'\n')
+window.close()
+```
+
+Now we can run the following on our file:
+
+```sh
+hihat paste.js --node --no-devtool > clipboard.txt
+```
+
+This will write the clipboard contents to a new file, `clipboard.txt`.
+
+You can pass `--no-electron-builtins` to disable Electron modules and make the source behave more like Node.
+
+**Note:** Modules that use native addons (like [node-canvas](https://github.com/Automattic/node-canvas)) are not supported.
+
+## Advanced Examples
+
+#### prettify TAP in console
 
 You can use the browserify plugin [tap-dev-tool](https://github.com/Jam3/tap-dev-tool) to pretty-print TAP output in the console.
 
@@ -46,23 +126,12 @@ You can use the browserify plugin [tap-dev-tool](https://github.com/Jam3/tap-dev
 npm install tap-dev-tool --save-dev
 
 # now run it as a plugin
-hihat test.js -p tap-dev-tool
+hihat test.js -- -p tap-dev-tool
 ```
 
 Files that use [tap](https://www.npmjs.com/package/tap) or [tape](https://www.npmjs.com/package/tape) will be logged like so:
 
 ![tap-dev-tool](http://i.imgur.com/LS014oR.png)
-
-## Ideas / Future
-
-Since this builds on Electron, it could open up some interesting possibilities down the road:
-
-- saving files natively from JS
-- resizing the browser from JS tests
-- taking screen shots during development
-- communicating with Node-specific APIs
-- operating on clipboard
-- piping TAP contents to terminal console
 
 ## License
 
