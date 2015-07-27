@@ -1,12 +1,13 @@
+// W.I.P.
+// still gotta figure out a clean way of
+// automating all tests into one
+
 var spawn = require('../bin/spawn')
 var series = require('async-each-series')
 var path = require('path')
 
-// still gotta figure out a clean way of unit
-// testing this project
-
 function start (args, done) {
-  return spawn(args).on('end', done)
+  return spawn(args).on('close', done)
 }
 
 function fixture (name) {
@@ -19,5 +20,9 @@ function test (file) {
 }
 
 series([
-  test('test-node-with-electron.js', '--node')
-], start)
+  test('test-node-with-electron.js', '--node'),
+  test('test-browser'),
+  test('test-index.js', '--index=test/fixtures/index.html', '--serve=bundle.js')
+], start, function () {
+  console.log("Finished")
+})
