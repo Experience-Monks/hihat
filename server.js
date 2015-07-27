@@ -90,7 +90,7 @@ function start (opt) {
           mainWindow.openDevTools({ detach: true })
         }
       })
-
+      
       webContents.once('did-frame-finish-load', function () {
         mainWindow.loadUrl(ev.uri)
         mainWindow.once('dom-ready', function () {
@@ -105,6 +105,11 @@ function start (opt) {
       })
 
       mainWindow.show()
+      // REPL with no browserify entries
+      if (argv._.length === 0) {
+        mainWindow.reload()
+      }
+      
       mainWindow.once('closed', function () {
         mainWindow = null
         hihat.close()

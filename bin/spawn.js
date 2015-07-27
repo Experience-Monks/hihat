@@ -8,12 +8,7 @@ var serverPath = path.join(__dirname, '../server.js')
 module.exports = spawnHihat
 function spawnHihat (args) {
   var argv = parseArgs(args)
-  var file = argv._[0]
-  if (!file) {
-    console.error('No file path specified')
-    process.exit(1)
-  }
-
+  
   // spawn electron
   var p = proc.spawn(electron, [serverPath].concat(args))
   p.stdout.pipe(process.stdout)
