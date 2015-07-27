@@ -2,13 +2,15 @@
 
 ![hihat](http://i.imgur.com/Sqpbjzl.gif)
 
-> interactive Node/Browser testing with Chrome DevTools
+> local Node/Browser development with Chrome DevTools
 
 Runs a source file in a Chrome DevTools process. Saving the file will reload the tab. 
 
 This is useful for locally unit testing browser code with the full range of Web APIs (WebGL, WebAudio, etc). It provides access to profiling, debugger statements, network requests, and so forth. 
 
 It can also be used to develop typical Node projects, or as a generic [Node REPL](#repl). For example, instead of using [nodemon](https://www.npmjs.com/package/nodemon) during development, you can use `hihat` to make use of a debugger.
+
+Since it provides Browser and Node APIs, it can also be used for some simple CLI tooling, like [saving a Canvas2D to a PNG file](#save-canvas-2d-to-png-image).
 
 Eventually; this may be useful for headless testing of Node/Browser code on a server.
 
