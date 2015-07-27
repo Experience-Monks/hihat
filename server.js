@@ -86,11 +86,11 @@ function start (opt) {
 
       var webContents = mainWindow.webContents
       webContents.once('did-start-loading', function () {
-        if (String(argv.devtool) !== 'false') {
+        if (argv.devtool !== false) {
           mainWindow.openDevTools({ detach: true })
         }
       })
-
+      
       webContents.once('did-frame-finish-load', function () {
         mainWindow.loadUrl(ev.uri)
         mainWindow.once('dom-ready', function () {
@@ -105,6 +105,21 @@ function start (opt) {
       })
 
       mainWindow.show()
+      // REPL with no browserify entries
+      if (argv._.length === 0) {
+        mainWindow.reload()
+      }
+      
+      // if DevTools is the only window and it closes,
+      // then quit the app
+      if (argv.node && (argv.devtool !== false && (bounds.width === 0 && bounds.height === 0))) {
+        // BUG: there is a bug where this fails when 'node-integration: false'
+        // will need to revisit upstream in Electron
+        mainWindow.once('devtools-closed', function () {
+          mainWindow.close()
+        })
+      }
+      
       mainWindow.once('closed', function () {
         mainWindow = null
         hihat.close()
