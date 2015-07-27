@@ -61,7 +61,7 @@ hihat entries [options] -- [browserifyOptions]
 
 Options:
 
-- `--pot` (default `9541`)
+- `--port` (default `9541`)
   - the port to host the local server on
 - `--host` (default `'localhost'`)
   - the host for the local development server
