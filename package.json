@@ -10,23 +10,29 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
+    "browserify": "^11.0.0",
     "concat-stream": "^1.4.8",
     "debounce": "^1.0.0",
     "duplexer2": "0.0.2",
     "ecstatic": "^0.8.0",
-    "electron-prebuilt": "^0.27.1",
+    "electron-prebuilt": "^0.30.1",
     "events": "^1.0.2",
     "getport": "^0.1.0",
+    "is-dom": "^1.0.5",
     "minimist": "^1.1.1",
     "object-assign": "^3.0.0",
     "once": "^1.3.2",
+    "process": "^0.11.1",
     "routes-router": "^4.1.2",
+    "serializerr": "^1.0.1",
     "simple-html-index": "^1.0.1",
+    "sliced": "^1.0.1",
     "split2": "^1.0.0",
     "through2": "^0.6.5",
-    "watchify": "^3.1.2"
+    "watchify": "^3.3.0"
   },
   "devDependencies": {
+    "brfs": "^1.4.0",
     "standard": "^4.2.0",
     "tap-dev-tool": "^1.3.0",
     "tap-spec": "^3.0.0",

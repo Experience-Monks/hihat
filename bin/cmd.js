@@ -6,7 +6,7 @@ var logger = require('../lib/fix-logs')
 var fs = require('fs')
 
 var args = process.argv.slice(2)
-var argv = require('minimist')(args)
+var argv = require('../lib/parse-args')(args)
 
 var serverPath = path.join(__dirname, '../server.js')
 
@@ -23,6 +23,12 @@ if (!fs.existsSync(path.resolve(file))) {
 
 // spawn electron
 var p = proc.spawn(electron, [serverPath].concat(args))
-p.stderr.pipe(logger({
-  verbose: argv.verbose
-})).pipe(process.stdout)
+
+p.stdout.pipe(process.stdout)
+
+if (argv.rawOutput) {
+  p.stderr.pipe(process.stderr)
+} else {
+  // pipe chromium-stripped logs
+  p.stderr.pipe(logger()).pipe(process.stderr)
+}
