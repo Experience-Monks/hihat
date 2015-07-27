@@ -74,6 +74,7 @@ Options:
 - `--frame` (default `'0,0,0,0'`)
   - a comma-separated string for `x,y,width,height` window bounds
   - if only two numbers are passed, treated as `width,height`
+  - if `true` is passed, uses the native default size
 - `--no-devtool`
   - do not open a DevTools window when running
 - `--raw-output`
@@ -84,6 +85,8 @@ Options:
   - when `--node` is enabled, makes it behave more like Node by ignoring Electron builtins
 - `--timeout` (default 0)
   - a number, will close the process after this duration. Use 0 for no timeout
+- `--exec`
+  - an alias for `--print`, `--no-devtool` and `--quit` options. Useful for headless executions
 
 By default, browserify will use source maps. You can change this with `--no-debug` as a browserify option:
 
@@ -106,7 +109,7 @@ window.close()
 Now we can run the following on our file:
 
 ```sh
-hihat paste.js --node --no-devtool > clipboard.txt
+hihat paste.js --node --exec > clipboard.txt
 ```
 
 This will write the clipboard contents to a new file, `clipboard.txt`.
@@ -161,7 +164,7 @@ window.close()
 Now run the following:
 
 ```sh
-hihat render.js --node --no-devtool > image.png
+hihat render.js --node --exec > image.png
 ```
 
 And the result of `image.png` will be:
