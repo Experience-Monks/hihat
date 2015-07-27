@@ -12,6 +12,20 @@ app.commandLine.appendSwitch('vmodule', 'console=0')
 var BrowserWindow = require('browser-window')
 var createHihat = require('./lib/hihat')
 
+var basedir = argv.basedir || process.cwd()
+
+Error.stackTraceLimit = Infinity
+
+// this will allow the Chrome Console to also
+// find modules within the CWD
+if (argv.node) {
+  var findNodeModules = require('find-node-modules')
+  process.env.NODE_PATH = findNodeModules({
+    cwd: basedir,
+    relative: false
+  }).join(path.delimiter)
+}
+
 // Report crashes to atom server.
 require('crash-reporter').start()
 
