@@ -5,5 +5,5 @@ test('should do something', function (t) {
 
   setTimeout(function () {
     t.deepEqual([ 0, 0 ], [ 0, 0 ], 'are the same')
-  .}, 50)
+  }, 50)
 })

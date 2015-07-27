@@ -1,0 +1,27 @@
+{
+  "name": "browser-field",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "browser": "./browser.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattdesl/browser-field.git"
+  },
+  "homepage": "https://github.com/mattdesl/browser-field",
+  "bugs": {
+    "url": "https://github.com/mattdesl/browser-field/issues"
+  }
+}

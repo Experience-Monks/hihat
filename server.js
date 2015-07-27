@@ -1,8 +1,7 @@
-var args = process.argv.slice(2)
 var assign = require('object-assign')
 var path = require('path')
 var serializerr = require('serializerr')
-var argv = require('./lib/parse-args')(args)
+var argv = require('./lib/parse-args')(process.argv.slice(2))
 var prelude = path.resolve(__dirname, 'lib', 'prelude.js')
 
 var app = require('app')
@@ -62,7 +61,7 @@ function start (opt) {
   hihat = createHihat(opt)
     .on('connect', function (ev) {
       var bounds = parseBounds(argv.frame)
-
+      
       // a hidden browser window
       mainWindow = new BrowserWindow(assign({
         'node-integration': argv.node
@@ -83,6 +82,12 @@ function start (opt) {
         mainWindow.once('dom-ready', function () {
           printLastError()
         })
+        
+        if (typeof argv.timeout === 'number') {
+          setTimeout(function () {
+            close()
+          }, argv.timeout)
+        }
       })
 
       mainWindow.show()
