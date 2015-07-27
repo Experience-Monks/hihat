@@ -112,7 +112,9 @@ function start (opt) {
       
       // if DevTools is the only window and it closes,
       // then quit the app
-      if (argv.devtool !== false && (bounds.width === 0 && bounds.height === 0)) {
+      if (argv.node && (argv.devtool !== false && (bounds.width === 0 && bounds.height === 0))) {
+        // BUG: there is a bug where this fails when 'node-integration: false'
+        // will need to revisit upstream in Electron
         mainWindow.once('devtools-closed', function () {
           mainWindow.close()
         })
