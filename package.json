@@ -2,7 +2,7 @@
   "name": "hihat",
   "version": "2.3.0",
   "description": "local Node/Browser development with Chrome DevTools",
-  "main": "server.js",
+  "main": "index.js",
   "license": "MIT",
   "author": {
     "name": "Matt DesLauriers",

@@ -1,0 +1,207 @@
+var assign = require('object-assign')
+var path = require('path')
+var serializerr = require('serializerr')
+var getPort = require('getport')
+var parseArgs = require('./lib/parse-args')
+
+var createHihat = require('./lib/hihat')
+
+module.exports = hihat
+module.exports.fromArgs = fromArgs
+
+function fromArgs (args, opt) {
+  var cliOpts = parseArgs(args)
+  return hihat(assign(cliOpts, opt))
+}
+
+function hihat (opts) {
+  // require these at runtime
+  var app = require('app')
+  app.commandLine.appendSwitch('disable-http-cache')
+  app.commandLine.appendSwitch('v', 0)
+  app.commandLine.appendSwitch('vmodule', 'console=0')
+  var BrowserWindow = require('browser-window')
+  
+  opts = assign({}, opts)
+  var entries = opts.entries || []
+  if (typeof entries === 'string')
+    entries = [ entries ]
+  
+  if (opts.exec) {
+    opts.devtool = false
+    opts.quit = true
+    opts.print = true
+  }
+
+  var basedir = opts.basedir || process.cwd()
+
+  Error.stackTraceLimit = Infinity
+
+  // this will allow the Chrome Console to also
+  // find modules within the current working directory
+  if (opts.node) {
+    var findNodeModules = require('find-node-modules')
+    process.env.NODE_PATH = findNodeModules({
+      cwd: basedir,
+      relative: false
+    }).join(path.delimiter)
+  }
+
+  var hihat
+  var mainWindow = null, lastError = null
+  app.on('window-all-closed', close)
+
+  process.on('uncaughtException', function (err) {
+    process.stderr.write((err.stack ? err.stack : err) + '\n')
+    if (opts.quit) {    
+      close()
+    } else {
+      lastError = err
+      printLastError()
+    }
+  })
+
+  function close () {
+    app.quit()
+    if (hihat) {
+      hihat.close()
+    }
+  }
+
+  app.on('ready', function () {
+    var basePort = opts.port || 9541
+    getPort(basePort, function (err, port) {
+      if (err) {
+        console.error('Could not get available port')
+        process.exit(1)
+      }
+      
+      var unparsedArgs = opts.browserifyArgs
+      start(assign({}, opts, {
+        entries: entries,
+        browserifyArgs: entries.concat(unparsedArgs),
+        port: port,
+        host: opts.host || 'localhost',
+        dir: opts.dir || process.cwd()
+      }))
+    })
+  })
+
+  function start (opt) {
+    hihat = createHihat(opt)
+      .on('connect', function (ev) {
+        var bounds = parseBounds(opts.frame)
+        
+        // a hidden browser window
+        mainWindow = new BrowserWindow(assign({
+          'node-integration': opts.node,
+          'use-content-size': true
+        }, bounds, {
+          preload: getPrelude(),
+          icon: path.join(__dirname, 'img', 'logo-thumb.png')
+        }))
+
+        var webContents = mainWindow.webContents
+        webContents.once('did-start-loading', function () {
+          if (opts.devtool !== false) {
+            mainWindow.openDevTools({ detach: true })
+          }
+        })
+        
+        webContents.once('did-frame-finish-load', function () {
+          mainWindow.loadUrl(ev.uri)
+          mainWindow.once('dom-ready', function () {
+            printLastError()
+          })
+          
+          if (typeof opts.timeout === 'number') {
+            setTimeout(function () {
+              close()
+            }, opts.timeout)
+          }
+        })
+
+        mainWindow.show()
+        // REPL with no browserify entries
+        if (entries.length === 0) {
+          mainWindow.reload()
+        }
+        
+        // if DevTools is the only window and it closes,
+        // then quit the app
+        if (opts.node && (opts.devtool !== false && (bounds.width === 0 && bounds.height === 0))) {
+          // BUG: there is a bug where this fails when 'node-integration: false'
+          // will need to revisit upstream in Electron
+          mainWindow.once('devtools-closed', function () {
+            mainWindow.close()
+          })
+        }
+        
+        mainWindow.once('closed', function () {
+          mainWindow = null
+          hihat.close()
+        })
+      })
+      .on('update', function () {
+        if (mainWindow) {
+          mainWindow.reload()
+        }
+      })
+  }
+
+  function parseBounds (frame) {
+    var bounds = { width: 0, height: 0, x: 0, y: 0 }
+    if (typeof frame === 'string') {
+      var parts = frame.split(',').map(function (x) {
+        return parseInt(x, 10)
+      })
+      if (parts.length === 2) {
+        bounds = { width: parts[0], height: parts[1] }
+      } else if (parts.length === 4) {
+        bounds.x = parts[0]
+        bounds.y = parts[1]
+        bounds.width = parts[2]
+        bounds.height = parts[3]
+      } else {
+        throw new Error('must specify 2 or 4 values for --frame')
+      }
+    } else if (frame) {
+      bounds = {} // let Electron choose default size
+    }
+    
+    return bounds
+  }
+
+  function printLastError () {
+    if (!mainWindow || !lastError) return
+    var err = serializerr(lastError)
+    mainWindow.webContents.executeJavaScript([
+      '(function() {',
+      // simulate server-side Error object
+      'var errObj = ' + JSON.stringify(err),
+      'var err = new Error()',
+      'mixin(err, errObj)',
+      'try {throw err} catch(e) {console.error(e)}',
+      'function mixin(a, b) { for (var key in b) a[key] = b[key] }',
+      '})()'
+    ].join('\n'))
+    lastError = null
+  }
+
+  function getPrelude () {
+    var name
+    if (opts.node && opts.print) {
+      name = 'node-console.js' 
+    } else if (opts.node) {
+      name = 'node.js'
+    } else if (opts.print) {
+      name = 'console.js'
+    }
+    
+    if (name) {
+      return path.resolve(__dirname, 'lib', 'prelude', name)
+    } else {
+      return undefined
+    }
+  }
+}
