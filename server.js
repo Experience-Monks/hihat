@@ -76,7 +76,8 @@ function start (opt) {
       
       // a hidden browser window
       mainWindow = new BrowserWindow(assign({
-        'node-integration': argv.node
+        'node-integration': argv.node,
+        'use-content-size': true
       }, bounds, {
         preload: getPrelude(),
         icon: path.join(__dirname, 'img', 'logo-thumb.png')
