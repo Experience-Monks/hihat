@@ -20,6 +20,7 @@
     "find-node-modules": "^1.0.1",
     "getport": "^0.1.0",
     "is-dom": "^1.0.5",
+    "lodash.defaults": "^3.1.2",
     "minimist": "^1.1.1",
     "normalize-file-to-url-path": "^1.0.0",
     "object-assign": "^3.0.0",

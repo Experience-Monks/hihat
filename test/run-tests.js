@@ -2,12 +2,13 @@
 // still gotta figure out a clean way of
 // automating all tests into one
 
-var spawn = require('../bin/spawn')
+var spawn = require('../spawn')
 var series = require('async-each-series')
 var path = require('path')
+var server = path.resolve(__dirname, '..', 'bin', 'server.js')
 
 function start (args, done) {
-  return spawn(args).on('close', done)
+  return spawn(server, args).on('close', done)
 }
 
 function fixture (name) {

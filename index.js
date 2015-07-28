@@ -3,6 +3,7 @@ var path = require('path')
 var serializerr = require('serializerr')
 var getPort = require('getport')
 var parseArgs = require('./lib/parse-args')
+var defaults = require('lodash.defaults')
 
 var createHihat = require('./lib/hihat')
 
@@ -23,6 +24,9 @@ function hihat (opts) {
   var BrowserWindow = require('browser-window')
   
   opts = assign({}, opts)
+  // ensure defaults like devtool / electron-builtins are set
+  defaults(opts, parseArgs.defaults)
+  
   var entries = opts.entries || []
   if (typeof entries === 'string')
     entries = [ entries ]
