@@ -130,17 +130,7 @@ function hihat (opts) {
         if (entries.length === 0) {
           mainWindow.reload()
         }
-        
-        // if DevTools is the only window and it closes,
-        // then quit the app
-        if (opts.node && (opts.devtool !== false && (bounds.width === 0 && bounds.height === 0))) {
-          // BUG: there is a bug where this fails when 'node-integration: false'
-          // will need to revisit upstream in Electron
-          mainWindow.once('devtools-closed', function () {
-            mainWindow.close()
-          })
-        }
-        
+
         mainWindow.once('closed', function () {
           mainWindow = null
           hihat.close()
