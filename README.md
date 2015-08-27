@@ -103,27 +103,39 @@ hihat test.js -- --no-debug
 
 ## Node
 
-hihat can also be used for developing Node code. This will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console.
+hihat can also be used for developing simple Node modules. The `--node` flag will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console while developing.
 
-By default, enabling `--node` will also enable the Electron builtins. For example, say we have `paste.js`:
+For example, `foobar.js`
 
 ```js
-var clipboard = require('clipboard')
-process.stdout.write(clipboard.readText()+'\n')
-window.close()
+var fs = require('fs')
+
+fs.readdir(process.cwd(), function (err, files) {
+  if (err) throw err
+  debugger
+  console.log(files)
+})
 ```
 
 Now we can run the following on our file:
 
 ```sh
-hihat paste.js --node --exec > clipboard.txt
+hihat foobar.js --node
 ```
 
-This will write the clipboard contents to a new file, `clipboard.txt`.
+![screenshot](http://i.imgur.com/jZdEcxC.png)
 
-You can pass `--no-electron-builtins` to disable Electron modules and make the source behave more like Node.
+By default, enabling `--node` will also enable the Electron builtins. You can pass `--no-electron-builtins` to disable Electron modules and make the source behave more like Node.
 
-**Note:** Modules that use native addons (like [node-canvas](https://github.com/Automattic/node-canvas)) are not supported.
+#### Limitations
+
+There are some known limitations with this approach.
+
+- Modules that use native addons (like [node-canvas](https://github.com/Automattic/node-canvas)) are not supported.
+- Unlike a typical Node.js program, you will need to explicitly quit the application with `window.close()`
+- Since the source is run through browserify, the initial build time is slow and features like `require.resolve` are not yet supported. [#21](https://github.com/Jam3/hihat/issues/21)
+- Some features like `process.stdin` are not possible. [#12](https://github.com/Jam3/hihat/issues/12)
+- Since this runs Electron instead of a plain Node.js runtime, it may produce some unusual results
 
 ## REPL
 
@@ -175,6 +187,12 @@ In most cases, `--serve` will default to the file name of your entry file. In co
 
 ## Advanced Examples
 
+Some more advanced uses of hihat.
+
+- [prettify TAP in console](prettify-tap-in-console)
+- [write clipboard to `stdout`](write-clipboard-to-stdout)
+- [save Canvas 2D to PNG image](save-canvas-2d-to-png-image)
+
 #### prettify TAP in console
 
 You can use the browserify plugin [tap-dev-tool](https://github.com/Jam3/tap-dev-tool) to pretty-print TAP output in the console.
@@ -190,6 +208,26 @@ hihat test.js -- -p tap-dev-tool
 Files that use [tap](https://www.npmjs.com/package/tap) or [tape](https://www.npmjs.com/package/tape) will be logged like so:
 
 ![tap-dev-tool](http://i.imgur.com/LS014oR.png)
+
+#### write clipboard to `stdout`
+
+Using the `clipboard` module in Electron, we can write it to stdout like so.
+
+`paste.js`:
+
+```js
+var clipboard = require('clipboard')
+process.stdout.write(clipboard.readText() + '\n')
+window.close()
+```
+
+Then run:
+
+```sh
+hihat paste.js --node --exec > clipboard.txt
+```
+
+This will write the clipboard contents to a new file, `clipboard.txt`.
 
 #### save Canvas 2D to PNG image
 
