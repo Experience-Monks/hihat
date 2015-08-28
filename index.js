@@ -22,6 +22,7 @@ function hihat (opts) {
   app.commandLine.appendSwitch('v', 0)
   app.commandLine.appendSwitch('vmodule', 'console=0')
   var BrowserWindow = require('browser-window')
+  var globalShortcut = require('global-shortcut')
   
   opts = assign({}, opts)
   // ensure defaults like devtool / electron-builtins are set
@@ -104,6 +105,9 @@ function hihat (opts) {
           preload: getPrelude(),
           icon: path.join(__dirname, 'img', 'logo-thumb.png')
         }))
+        
+        // reload page shortcuts
+        setupShortcuts()
 
         var webContents = mainWindow.webContents
         webContents.once('did-start-loading', function () {
@@ -141,6 +145,15 @@ function hihat (opts) {
           mainWindow.reload()
         }
       })
+  }
+  
+  function setupShortcuts () {
+    globalShortcut.register('CmdOrCtrl+R', refresh);
+    globalShortcut.register('F5', refresh);
+  }
+  
+  function refresh () {
+    if (mainWindow) mainWindow.reload()
   }
 
   function parseBounds (frame) {
