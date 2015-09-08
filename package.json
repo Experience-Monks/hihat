@@ -45,9 +45,7 @@
     "tape": "^4.0.0"
   },
   "scripts": {
-    "example": "./bin/cmd.js test/example.js -p tap-dev-tool",
-    "test": "standard && npm run smoke",
-    "smoke": "./bin/cmd.js test/simple.js --verbose | tap-spec"
+    "test": "standard && node test/run-tests.js"
   },
   "keywords": [
     "chrome",
