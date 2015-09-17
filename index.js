@@ -148,8 +148,15 @@ function hihat (opts) {
   }
   
   function setupShortcuts () {
-    globalShortcut.register('CmdOrCtrl+R', refresh);
-    globalShortcut.register('F5', refresh);
+    app.on('browser-window-focus', function () {
+      globalShortcut.register('CmdOrCtrl+R', refresh)
+      globalShortcut.register('F5', refresh)
+    })
+
+    app.on('browser-window-blur', function () {
+      globalShortcut.unregister('CmdOrCtrl+R')
+      globalShortcut.unregister('F5')
+    })
   }
   
   function refresh () {
