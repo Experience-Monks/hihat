@@ -11,3 +11,19 @@ test('should use exit code 0', function (t) {
     t.equal(code, 0, 'matches 0')
   })
 })
+
+test('should use exit code 0', function (t) {
+  t.plan(1)
+  var child = exec([ cli, './fixtures/test-exit.js --node' ].join(' '), { cwd: __dirname })
+  child.on('exit', function (code) {
+    t.equal(code, 0, 'matches 0')
+  })
+})
+
+test('should use exit code 0', function (t) {
+  t.plan(1)
+  var child = exec([ cli, './fixtures/test-exit-code.js' ].join(' '), { cwd: __dirname })
+  child.on('exit', function (code) {
+    t.equal(code, 1, 'matches 1')
+  })
+})

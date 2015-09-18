@@ -1,3 +1,3 @@
 setTimeout(function () {
-  process.exit()
+  process.exit(1)
 }, 500)
