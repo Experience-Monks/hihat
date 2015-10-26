@@ -94,6 +94,8 @@ Options:
 - `--serve`
   - what to serve your bundle entry point as
   - defaults to file name if possible, otherwise 'bundle.js'
+- `--browser-field`
+  - Can specify `true` or `false` to force enable/disable the `"browser"` field resolution, independently of the `--node` option
 
 By default, browserify will use source maps. You can change this with `--no-debug` as a browserify option:
 

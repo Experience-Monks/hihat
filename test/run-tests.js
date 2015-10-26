@@ -22,7 +22,8 @@ function test (file) {
 
 series([
   test('test-node-with-electron.js', '--node'),
-  test('test-browser'),
+  test('test-node-browser-field.js', '--node', '--browser-field'),
+  test('test-browser.js'),
   test('test-index.js', '--index=test/fixtures/index.html', '--serve=bundle.js')
 ], start, function () {
   console.log("Finished")
