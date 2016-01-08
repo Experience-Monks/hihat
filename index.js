@@ -30,8 +30,9 @@ function hihat (opts) {
   defaults(opts, parseArgs.defaults)
 
   var entries = opts.entries || []
-  if (typeof entries === 'string')
+  if (typeof entries === 'string') {
     entries = [ entries ]
+  }
 
   if (opts.exec) {
     opts.devtool = false
@@ -54,7 +55,8 @@ function hihat (opts) {
   }
 
   var hihat
-  var mainWindow = null, lastError = null
+  var mainWindow = null
+  var lastError = null
   app.on('window-all-closed', close)
 
   process.on('uncaughtException', function (err) {
