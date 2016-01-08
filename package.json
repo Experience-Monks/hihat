@@ -15,7 +15,7 @@
     "debounce": "^1.0.0",
     "duplexer2": "0.0.2",
     "ecstatic": "^0.8.0",
-    "electron-prebuilt": "^0.30.1",
+    "electron-prebuilt": "^0.36.3",
     "events": "^1.0.2",
     "find-node-modules": "^1.0.1",
     "getport": "^0.1.0",
