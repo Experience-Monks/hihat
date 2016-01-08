@@ -180,7 +180,12 @@ function hihat (opts) {
         throw new Error('must specify 2 or 4 values for --frame')
       }
     } else if (frame) {
-      bounds = {} // let Electron choose default size
+      bounds = {}
+      // allow programmatic frame object
+      if (typeof frame.x === 'number') bounds.x = frame.x
+      if (typeof frame.y === 'number') bounds.y = frame.y
+      if (typeof frame.width === 'number') bounds.width = frame.width
+      if (typeof frame.height === 'number') bounds.height = frame.height
     }
     
     return bounds
