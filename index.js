@@ -4,6 +4,7 @@ var serializerr = require('serializerr')
 var getPort = require('getport')
 var parseArgs = require('./lib/parse-args')
 var defaults = require('lodash.defaults')
+var globby = require('globby')
 
 var createHihat = require('./lib/hihat')
 
@@ -82,13 +83,21 @@ function hihat (opts) {
       }
       
       var unparsedArgs = opts.browserifyArgs
-      start(assign({}, opts, {
-        entries: entries,
-        browserifyArgs: entries.concat(unparsedArgs),
-        port: port,
-        host: opts.host || 'localhost',
-        dir: opts.dir || process.cwd()
-      }))
+      globby(entries).then(function (entryFiles) {
+        start(assign({}, opts, {
+          entries: entryFiles,
+          browserifyArgs: entryFiles.concat(unparsedArgs),
+          port: port,
+          host: opts.host || 'localhost',
+          dir: opts.dir || process.cwd()
+        }))
+      }, function (err) {
+        console.error('Error with glob patterns: ' + err.message)
+        process.exit(1)
+      }).catch(function (err) {
+        console.error('Error running hihat: ' + err.message)
+        process.exit(1)
+      })
     })
   })
 
