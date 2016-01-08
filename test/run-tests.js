@@ -26,5 +26,5 @@ series([
   test('test-browser.js'),
   test('test-index.js', '--index=test/fixtures/index.html', '--serve=bundle.js')
 ], start, function () {
-  console.log("Finished")
+  console.log('Finished')
 })

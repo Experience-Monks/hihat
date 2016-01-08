@@ -6,11 +6,11 @@ module.exports = spawnElectron
 function spawnElectron (server, args, opt) {
   args = args || []
   opt = opt || {}
-  
+
   // spawn electron
   var p = proc.spawn(electron, [ server ].concat(args))
   p.stdout.pipe(process.stdout)
-  
+
   if (opt.rawOutput) {
     p.stderr.pipe(process.stderr)
   } else {

@@ -24,15 +24,15 @@ function hihat (opts) {
   app.commandLine.appendSwitch('vmodule', 'console=0')
   var BrowserWindow = require('browser-window')
   var globalShortcut = require('global-shortcut')
-  
+
   opts = assign({}, opts)
   // ensure defaults like devtool / electron-builtins are set
   defaults(opts, parseArgs.defaults)
-  
+
   var entries = opts.entries || []
   if (typeof entries === 'string')
     entries = [ entries ]
-  
+
   if (opts.exec) {
     opts.devtool = false
     opts.quit = true
@@ -59,7 +59,7 @@ function hihat (opts) {
 
   process.on('uncaughtException', function (err) {
     process.stderr.write((err.stack ? err.stack : err) + '\n')
-    if (opts.quit) {    
+    if (opts.quit) {
       close()
     } else {
       lastError = err
@@ -81,7 +81,7 @@ function hihat (opts) {
         console.error('Could not get available port')
         process.exit(1)
       }
-      
+
       var unparsedArgs = opts.browserifyArgs
       globby(entries).then(function (entryFiles) {
         start(assign({}, opts, {
@@ -105,7 +105,7 @@ function hihat (opts) {
     hihat = createHihat(opt)
       .on('connect', function (ev) {
         var bounds = parseBounds(opts.frame)
-        
+
         // a hidden browser window
         mainWindow = new BrowserWindow(assign({
           'node-integration': opts.node,
@@ -114,7 +114,7 @@ function hihat (opts) {
           preload: getPrelude(),
           icon: path.join(__dirname, 'img', 'logo-thumb.png')
         }))
-        
+
         // reload page shortcuts
         setupShortcuts()
 
@@ -124,13 +124,13 @@ function hihat (opts) {
             mainWindow.openDevTools({ detach: true })
           }
         })
-        
+
         webContents.once('did-frame-finish-load', function () {
           mainWindow.loadURL(ev.uri)
           mainWindow.once('dom-ready', function () {
             printLastError()
           })
-          
+
           if (typeof opts.timeout === 'number') {
             setTimeout(function () {
               close()
@@ -155,7 +155,7 @@ function hihat (opts) {
         }
       })
   }
-  
+
   function setupShortcuts () {
     app.on('browser-window-focus', function () {
       globalShortcut.register('CmdOrCtrl+R', refresh)
@@ -167,7 +167,7 @@ function hihat (opts) {
       globalShortcut.unregister('F5')
     })
   }
-  
+
   function refresh () {
     if (mainWindow) mainWindow.reload()
   }
@@ -179,7 +179,7 @@ function hihat (opts) {
         return parseInt(x, 10)
       })
       if (parts.length === 2) {
-        bounds = { width: parts[0], height: parts[1] }
+        bounds = { width: parts[0], height: parts[1]}
       } else if (parts.length === 4) {
         bounds.x = parts[0]
         bounds.y = parts[1]
@@ -196,7 +196,7 @@ function hihat (opts) {
       if (typeof frame.width === 'number') bounds.width = frame.width
       if (typeof frame.height === 'number') bounds.height = frame.height
     }
-    
+
     return bounds
   }
 
@@ -219,13 +219,13 @@ function hihat (opts) {
   function getPrelude () {
     var name
     if (opts.node && opts.print) {
-      name = 'node-console.js' 
+      name = 'node-console.js'
     } else if (opts.node) {
       name = 'node.js'
     } else if (opts.print) {
       name = 'console.js'
     }
-    
+
     if (name) {
       return path.resolve(__dirname, 'lib', 'prelude', name)
     } else {

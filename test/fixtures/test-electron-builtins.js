@@ -1,5 +1,5 @@
 var clipboard = require('clipboard')
-process.stdout.write(clipboard.readText()+'\n')
+process.stdout.write(clipboard.readText() + '\n')
 
 window.close()
 
