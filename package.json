@@ -1,6 +1,6 @@
 {
   "name": "hihat",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "local Node/Browser development with Chrome DevTools",
   "main": "index.js",
   "license": "MIT",
