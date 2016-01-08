@@ -46,7 +46,8 @@
     "tape": "^4.0.0"
   },
   "scripts": {
-    "test": "standard && node test/run-tests.js"
+    "test": "standard && node test/run-tests.js",
+    "example": "./bin/cmd.js demo/canvas.js --node --exec > canvas.png"
   },
   "keywords": [
     "chrome",
