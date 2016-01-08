@@ -117,7 +117,7 @@ function hihat (opts) {
         })
         
         webContents.once('did-frame-finish-load', function () {
-          mainWindow.loadUrl(ev.uri)
+          mainWindow.loadURL(ev.uri)
           mainWindow.once('dom-ready', function () {
             printLastError()
           })
