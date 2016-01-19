@@ -18,8 +18,6 @@ Under the hood, this uses [electron](https://github.com/atom/electron), [browser
 
 Currently only tested on OSX Yosemite.
 
-**This project is still in active development.**
-
 ## Install
 
 [![NPM](https://nodei.co/npm/hihat.png)](https://www.npmjs.com/package/hihat)
@@ -105,7 +103,9 @@ hihat test.js -- --no-debug
 
 ## Node
 
-hihat can also be used for developing simple Node modules. The `--node` flag will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console while developing.
+> **Note:** Also see [devtool](https://github.com/Jam3/devtool), a spiritual successor to `hihat` specifically built for developing, profiling and debugging Node applications.
+
+hihat can also be used for developing *simple* Node modules. The `--node` flag will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console while developing.
 
 For example, `foobar.js`
 
@@ -138,6 +138,8 @@ There are some known limitations with this approach.
 - Since the source is run through browserify, the initial build time is slow and features like `require.resolve` are not yet supported. [#21](https://github.com/Jam3/hihat/issues/21)
 - Some features like `process.stdin` are not possible. [#12](https://github.com/Jam3/hihat/issues/12)
 - Since this runs Electron instead of a plain Node.js runtime, it may produce some unusual results
+
+Some of these problems are tackled by [devtool](https://github.com/Jam3/devtool), a spiritual successor to `hihat` specifically built for Node.js applications.
 
 ## REPL
 
