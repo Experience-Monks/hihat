@@ -1,4 +1,4 @@
-# hihat <sub>![logo](img/logo-thumb.png)</sub>
+# hihat
 
 ![hihat](http://i.imgur.com/Sqpbjzl.gif)
 
@@ -12,11 +12,9 @@ It can also be used to develop typical Node projects, or as a generic [Node REPL
 
 Since it provides Browser and Node APIs, it can also be used for some simple CLI tooling, like [saving a Canvas2D to a PNG file](#save-canvas-2d-to-png-image).
 
-Eventually; this may be useful for headless testing of Node/Browser code on a server.
-
 Under the hood, this uses [electron](https://github.com/atom/electron), [browserify](https://github.com/substack/node-browserify) and [watchify](https://github.com/substack/watchify).
 
-Currently only tested on OSX Yosemite.
+> **Note:** Users seeking the Node.js features may be more interested in [devtool](https://github.com/Jam3/devtool) – very similar to `hihat` but better architected to deal with large Node applications.
 
 ## Install
 
@@ -103,7 +101,7 @@ hihat test.js -- --no-debug
 
 ## Node
 
-> **Note:** Also see [devtool](https://github.com/Jam3/devtool), a spiritual successor to `hihat` specifically built for developing, profiling and debugging Node applications.
+> **Note:** Users seeking the Node.js features may be more interested in [devtool](https://github.com/Jam3/devtool) – very similar to `hihat` but better architected to deal with large Node applications.
 
 hihat can also be used for developing *simple* Node modules. The `--node` flag will disable the `"browser"` field resolution and use actual Node modules for `process`, `Buffer`, `"os"`, etc. It also exposes `require` statement outside of the bundle, so you can use it in the Chrome Console while developing.
 
@@ -139,7 +137,6 @@ There are some known limitations with this approach.
 - Some features like `process.stdin` are not possible. [#12](https://github.com/Jam3/hihat/issues/12)
 - Since this runs Electron instead of a plain Node.js runtime, it may produce some unusual results
 
-Some of these problems are tackled by [devtool](https://github.com/Jam3/devtool), a spiritual successor to `hihat` specifically built for Node.js applications.
 
 ## REPL
 
@@ -267,6 +264,10 @@ hihat render.js --node --exec > image.png
 And the result of `image.png` will be:
 
 ![image](http://i.imgur.com/whDkS67.png)
+
+## See Also
+
+- [devtool](https://github.com/Jam3/devtool) - a similar tool, but built specifically for Node and without the browserify/watchify cruft
 
 ## License
 
