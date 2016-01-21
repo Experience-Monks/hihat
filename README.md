@@ -14,7 +14,11 @@ Since it provides Browser and Node APIs, it can also be used for some simple CLI
 
 Under the hood, this uses [electron](https://github.com/atom/electron), [browserify](https://github.com/substack/node-browserify) and [watchify](https://github.com/substack/watchify).
 
-> **Note:** Users seeking the Node.js features may be more interested in [devtool](https://github.com/Jam3/devtool) – very similar to `hihat` but better architected to deal with large Node applications.
+---
+
+#### Update: Jan 2016
+
+A lot of new efforts are going toward [devtool](https://github.com/Jam3/devtool), a very similar project but without `browserify` and `watchify` under the hood. In many ways it replaces `hihat`, but not all. Both tools will continue to exist, although `devtool` will probably receive more regular enhancements and maintenance.
 
 ## Install
 
