@@ -14,7 +14,7 @@
     "concat-stream": "^1.4.8",
     "debounce": "^1.0.0",
     "duplexer2": "0.0.2",
-    "ecstatic": "^0.8.0",
+    "ecstatic": "^4.1.2",
     "electron-prebuilt": "^0.36.3",
     "events": "^1.0.2",
     "find-node-modules": "^1.0.1",
